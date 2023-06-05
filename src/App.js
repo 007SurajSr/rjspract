@@ -1,23 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import React, {useState} from "react";
 
 function App() {
+  const list = [
+    "Banana",
+    "Apple",
+    "Orange",
+    "Mango",
+    "Pineapple",
+    "Watermelon"
+  ];
+
+  const [filterList, setFilterList] = useState(list);
+
+  const handleSearch = (event) => {
+
+    if (event.target.value === "") {
+      setFilterList(list);
+      return;
+    }
+    const filteredValues = list.filter(
+      (item) =>
+        item.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1
+    );
+    setFilterList(filteredValues);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div>
+        Search: <input name="query" type="text" onChange={handleSearch} />
+      </div>
+      {filterList &&
+        filterList.map((item, index) => (
+          <div key={index}>{item}</div> //Display each item
+        ))}
     </div>
   );
 }
